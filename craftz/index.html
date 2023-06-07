@@ -1,85 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Handicraft Showcase</title>
   <style>
     body {
-  background-color: orange;
-}
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-header {
-  text-align: center;
-  padding: 20px;
-}
+    header {
+      background-color: #f44336;
+      padding: 20px;
+      text-align: center;
+    }
 
-#cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-}
+    h1 {
+      color: #ffffff;
+      margin: 0;
+    }
 
-.card {
-  width: 200px;
-  height: 200px;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.3s;
-}
+    main {
+      padding: 20px;
+    }
 
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    #cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-#expanded-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
-  z-index: 999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
+    .card {
+      width: 300px;
+      margin: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transform: scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
 
-#expanded-card.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
+    .card:hover {
+      transform: scale(1.05);
+    }
 
-#expanded-card #back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .card-image {
+      height: 200px;
+      background-color: #f1f1f1;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
 
-#expanded-card #expanded-image {
-  max-width: 80%;
-  max-height: 80%;
-}
+    .card-content {
+      padding: 20px;
+      background-color: #ffffff;
+    }
 
-.hidden {
-  display: none;
-}
+    .card-title {
+      margin: 0;
+      font-size: 18px;
+    }
 
+    .card-description {
+      margin-top: 10px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -87,41 +75,68 @@ header {
     <h1>Handicraft Showcase</h1>
   </header>
 
-  <div id="cards-container">
-    <div class="card">
-      <img src="blue_orchid.jpg" alt="Blue Orchid Purse">
-    </div>
-    <div class="card">
-      <img src="item2.jpg" alt="Item 2">
-    </div>
-    <!-- Add more cards for your other items -->
-  </div>
+  <main>
+    <section id="cards"></section>
+  </main>
 
-  <div id="expanded-card" class="hidden">
-    <button id="back-button">Back</button>
-    <img id="expanded-image" src="" alt="">
-  </div>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
   <script>
-    const cardsContainer = document.getElementById('cards-container');
-    const expandedCard = document.getElementById('expanded-card');
-    const expandedImage = document.getElementById('expanded-image');
-    const backButton = document.getElementById('back-button');
+    const cardsContainer = document.getElementById('cards');
 
-    cardsContainer.addEventListener('click', function(event) {
-      if (event.target.classList.contains('card')) {
-        const clickedCard = event.target;
-        const clickedImage = clickedCard.querySelector('img');
+    // Sample data (replace with your own)
+    const items = [
+      {
+        title: 'Item 1',
+        image: 'item1.jpg',
+        description: 'Description for Item 1',
+      },
+      {
+        title: 'Item 2',
+        image: 'item2.jpg',
+        description: 'Description for Item 2',
+      },
+      {
+        title: 'Item 3',
+        image: 'item3.jpg',
+        description: 'Description for Item 3',
+      },
+    ];
 
-        expandedImage.src = clickedImage.src;
-        expandedCard.classList.add('visible');
-      }
+    // Create cards dynamically
+    items.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const image = document.createElement('div');
+      image.className = 'card-image';
+      image.style.backgroundImage = `url('${item.image}')`;
+
+      const content = document.createElement('div');
+      content.className = 'card-content';
+
+      const title = document.createElement('h2');
+      title.className = 'card-title';
+      title.textContent = item.title;
+
+      const description = document.createElement('p');
+      description.className = 'card-description';
+      description.textContent = item.description;
+
+      content.appendChild(title);
+      content.appendChild(description);
+
+      card.appendChild(image);
+      card.appendChild(content);
+
+      cardsContainer.appendChild(card);
+
+      // GSAP Animation
+      gsap.fromTo(
+        card,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, delay: index * 0.2 }
+      );
     });
-
-    backButton.addEventListener('click', function() {
-      expandedCard.classList.remove('visible');
-});
-
   </script>
 </body>
 </html>
