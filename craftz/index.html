@@ -1,150 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Art & Craft for Sale!</title>
-  <h3 style="text-align:center">Contact: +91 9810290446</h3>
+  <title>Handicraft Showcase</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fc6603;
-    }
+  background-color: orange;
+}
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+header {
+  text-align: center;
+  padding: 20px;
+}
 
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+#cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
 
-    h1 {
-      font-size: 36px;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
+.card {
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s;
+}
 
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-    }
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-    .card {
-      width: 300px;
-      padding: 20px;
-      background-color: #f8f8f8;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-      overflow: hidden;
-    }
+#expanded-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
 
-    .card:hover {
-      transform: scale(2.5);
-    }
+#expanded-card.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-    .card-image {
-      width: 100%;
-      height: 200px;
-      background-color: #e1e1e1;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      border-radius: 5px;
-      margin-bottom: 10px;
-    }
+#expanded-card #back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-    .card-title {
-      font-size: 18px;
-      color: #333;
-      margin: 0;
-      margin-bottom: 10px;
-    }
+#expanded-card #expanded-image {
+  max-width: 80%;
+  max-height: 80%;
+}
 
-    .card-description {
-      font-size: 14px;
-      color: #666;
-      margin: 0;
-    }
+.hidden {
+  display: none;
+}
 
-    @media (max-width: 768px) {
-      .cards {
-        justify-content: flex-start;
-      }
-
-      .card {
-        width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Art & Craft for Sale!</h1>
-    </header>
+  <header>
+    <h1>Handicraft Showcase</h1>
+  </header>
 
-    <div class="cards"></div>
+  <div id="cards-container">
+    <div class="card">
+      <img src="item1.jpg" alt="Item 1">
+    </div>
+    <div class="card">
+      <img src="item2.jpg" alt="Item 2">
+    </div>
+    <!-- Add more cards for your other items -->
+  </div>
+
+  <div id="expanded-card" class="hidden">
+    <button id="back-button">Back</button>
+    <img id="expanded-image" src="" alt="">
   </div>
 
   <script>
-    const cardsContainer = document.querySelector('.cards');
+    const cardsContainer = document.getElementById('cards-container');
+    const expandedCard = document.getElementById('expanded-card');
+    const expandedImage = document.getElementById('expanded-image');
+    const backButton = document.getElementById('back-button');
 
-    // Sample data (replace with your own)
-    const items = [
-      {
-        title: 'Blue Orchid HandBag',
-        image: 'blue_orchid.jpg',
-        description: 'Made using Crochet, durable, beautiful and hand-crafted',
-      },
-      {
-        title: 'Item 2',
-        image: 'item2.jpg',
-        description: 'Description for Item 2',
-      },
-      {
-        title: 'Item 3',
-        image: 'item3.jpg',
-        description: 'Description for Item 3',
-      },
-    ];
+    cardsContainer.addEventListener('click', function(event) {
+      if (event.target.classList.contains('card')) {
+        const clickedCard = event.target;
+        const clickedImage = clickedCard.querySelector('img');
 
-    // Create cards dynamically
-    items.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'card';
-
-      const image = document.createElement('div');
-      image.className = 'card-image';
-      image.style.backgroundImage = `url('${item.image}')`;
-
-      const title = document.createElement('h2');
-      title.className = 'card-title';
-      title.textContent = item.title;
-
-      const description = document.createElement('p');
-      description.className = 'card-description';
-      description.textContent = item.description;
-
-      card.appendChild(image);
-      card.appendChild(title);
-      card.appendChild(description);
-
-      cardsContainer.appendChild(card);
+        expandedImage.src = clickedImage.src;
+        expandedCard.classList.add('visible');
+      }
     });
+
+    backButton.addEventListener('click', function() {
+      expandedCard.classList.remove('visible');
+});
+
   </script>
 </body>
 </html>
