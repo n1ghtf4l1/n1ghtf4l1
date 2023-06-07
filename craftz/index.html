@@ -3,18 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arts & Crafts for Sale!</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Art & Craft for Sale!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .card {
+      width: 300px;
+      padding: 20px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      background-color: #e1e1e1;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      color: #333;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        justify-content: flex-start;
+      }
+
+      .card {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Arts & Crafts by Soma</h1>
-  </header>
+  <div class="container">
+    <header>
+      <h1>Handicraft Showcase</h1>
+    </header>
 
-  <main>
-    <section id="cards"></section>
-  </main>
+    <div class="cards"></div>
+  </div>
 
-  <script src="script.js"></script>
+  <script>
+    const cardsContainer = document.querySelector('.cards');
+
+    // Sample data (replace with your own)
+    const items = [
+      {
+        title: 'Item 1',
+        image: 'item1.jpg',
+        description: 'Description for Item 1',
+      },
+      {
+        title: 'Item 2',
+        image: 'item2.jpg',
+        description: 'Description for Item 2',
+      },
+      {
+        title: 'Item 3',
+        image: 'item3.jpg',
+        description: 'Description for Item 3',
+      },
+    ];
+
+    // Create cards dynamically
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const image = document.createElement('div');
+      image.className = 'card-image';
+      image.style.backgroundImage = `url('${item.image}')`;
+
+      const title = document.createElement('h2');
+      title.className = 'card-title';
+      title.textContent = item.title;
+
+      const description = document.createElement('p');
+      description.className = 'card-description';
+      description.textContent = item.description;
+
+      card.appendChild(image);
+      card.appendChild(title);
+      card.appendChild(description);
+
+      cardsContainer.appendChild(card);
+    });
+  </script>
 </body>
 </html>
