@@ -52,6 +52,7 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      cursor: pointer;
     }
 
     .card-content {
@@ -68,6 +69,25 @@
       margin-top: 10px;
       font-size: 14px;
     }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -79,9 +99,15 @@
     <section id="cards"></section>
   </main>
 
+  <div class="modal-overlay">
+    <img class="modal-image" src="" alt="Full-size Image">
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
   <script>
     const cardsContainer = document.getElementById('cards');
+    const modalOverlay = document.querySelector('.modal-overlay');
+    const modalImage = document.querySelector('.modal-image');
 
     // Sample data (replace with your own)
     const items = [
@@ -136,6 +162,17 @@
         { scale: 0, opacity: 0 },
         { scale: 1, opacity: 1, duration: 0.5, delay: index * 0.2 }
       );
+
+      // Image click event
+      image.addEventListener('click', () => {
+        modalImage.src = item.image;
+        modalOverlay.style.display = 'flex';
+      });
+    });
+
+    // Close modal on overlay click
+    modalOverlay.addEventListener('click', () => {
+      modalOverlay.style.display = 'none';
     });
   </script>
 </body>
